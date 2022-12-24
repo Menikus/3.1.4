@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -32,11 +34,9 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private Set<Role> roles = new HashSet<>();;
-
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
-
     }
 
     public User(String firstName, String lastName, int age, String email, Set<Role> roles) {
@@ -79,6 +79,7 @@ public class User implements UserDetails {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getLastName() {
         return lastName;
     }
@@ -126,7 +127,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRole();
+        return getRole().stream().map(a -> new SimpleGrantedAuthority(a.getAuthority())).collect(Collectors.toList());
+//        return getRole();
     }
 
     @Override
@@ -147,5 +149,26 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles.toString() +
+                '}';
+    }
+
+    public String roleNormalName() {
+        String roleName = "";
+        for(Role role:roles){
+            roleName = roleName + " " + role.roleNormalName();
+        }
+        return roleName;
     }
 }

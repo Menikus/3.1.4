@@ -25,8 +25,6 @@ public class Gen {
     public void initDB() {
         Role roleAdmin = new Role(1, "ROLE_ADMIN");
         Role roleUser = new Role(2, "ROLE_USER");
-//        Role roleAdmin = new Role(1, "ROLE_ADMIN");
-//        Role roleUser = new Role(2, "ROLE_USER");
         Set<Role> adminSet = new HashSet<>();
         Set<Role> userSet = new HashSet<>();
 

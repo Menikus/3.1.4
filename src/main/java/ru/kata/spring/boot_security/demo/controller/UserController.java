@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
-@Transactional
 @RequestMapping("/")
 public class UserController {
 
@@ -31,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/admin")
-    public String index(Principal principal,Model model) {
+    public String index(Principal principal, Model model) {
         model.addAttribute("userAuthorized", userService.findByName((principal.getName())));
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleService.findAll());
@@ -39,13 +37,6 @@ public class UserController {
 //                .addAttribute("admin", userService.findByName(authentication.getName()));
         return "admin/index";
     }
-//    @GetMapping("/admin")
-//    public String index(Model model) {
-//        model.addAttribute("users", userService.findAll());
-//        model.addAttribute("roles", roleService.findAll());
-//        return "admin/index";
-//    }
-
 
     @GetMapping("/admin/{id}")
     public String show(@PathVariable("id") int id, Model model) {
@@ -72,14 +63,18 @@ public class UserController {
         return "admin/edit";
     }
 
-
     @PatchMapping("/admin/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingRequest,
-                         @PathVariable("id") int id) {
-        if (bindingRequest.hasErrors()) return "admin/edit";
-        userService.update(id, user);
+    public String update(@ModelAttribute("user") User user) {
+        userService.update(user);
         return "redirect:/admin";
     }
+//    @PatchMapping("/admin/{id}")
+//    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingRequest,
+//                         @PathVariable("id") int id) {
+//        if (bindingRequest.hasErrors()) return "admin/edit";
+//        userService.update(id, user);
+//        return "redirect:/admin";
+//    }
 
     @DeleteMapping("/admin/{id}")
     public String delete(@PathVariable("id") int id) {
@@ -93,6 +88,7 @@ public class UserController {
         model.addAttribute("simpleGrantedAuthority", new SimpleGrantedAuthority("ADMIN"));
         return "user";
     }
+
     @GetMapping("/login")
     public String loginPage() {
         return "login";

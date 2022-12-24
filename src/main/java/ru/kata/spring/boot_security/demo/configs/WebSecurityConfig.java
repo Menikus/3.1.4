@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Configuration
@@ -29,9 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
 
                 .authorizeRequests()
-                .antMatchers("/","/admin/**").hasRole("ADMIN")
+                .antMatchers("/", "/admin/**").hasRole("ADMIN")
                 .antMatchers("/user").hasRole("USER")
-                .antMatchers("/", "/index","/login").permitAll()
+                .antMatchers("/", "/index", "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -42,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(successUserHandler)
                 .permitAll()
                 .and()
-                .logout()//.logoutSuccessUrl("/")
+                .logout()//.logoutSuccessUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .permitAll();
     }
 
@@ -66,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        .build();
 //        return new InMemoryUserDetailsManager(user, admin);
 //    }
-        //  JDBCAutentification
+    //  JDBCAutentification
 //    @Bean
 //    public JdbcUserDetailsManager users(DataSource dataSource){
 //        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);

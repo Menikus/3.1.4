@@ -58,10 +58,14 @@ public class UserService implements org.springframework.security.core.userdetail
     }
 
     @Transactional
-    public void update(int id, User updUser) {
-        updUser.setId(id);
+    public void update(User updUser) {
         userRepository.save(updUser);
     }
+//    }    @Transactional
+//    public void update(int id, User updUser) {
+//        updUser.setId(id);
+//        userRepository.save(updUser);
+//    }
 
     @Transactional
     public void delete(int id) {
