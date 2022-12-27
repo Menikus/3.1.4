@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
@@ -13,11 +13,11 @@ import java.util.Set;
 @Component
 public class Gen {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final RoleService roleService;
 
-    public Gen(UserService userService, RoleService roleService) {
-        this.userService = userService;
+    public Gen(UserServiceImpl userServiceImpl, RoleService roleService) {
+        this.userServiceImpl = userServiceImpl;
         this.roleService = roleService;
     }
 
@@ -46,8 +46,8 @@ public class Gen {
                 "user@mail.ru", userSet);
         user.setId(2);
         user.setPassword("100");
-        userService.save(admin);
-        userService.save(user);
+        userServiceImpl.save(admin);
+        userServiceImpl.save(user);
     }
 }
 
