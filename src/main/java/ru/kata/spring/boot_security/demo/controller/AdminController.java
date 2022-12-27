@@ -30,7 +30,7 @@ public class AdminController {
         model.addAttribute("userAuthorized", userServiceImpl.findByName((principal.getName())))
                 .addAttribute("users", userServiceImpl.findAll())
                 .addAttribute("roles", roleServiceImpl.findAll());
-        return "admin/index";
+        return "admin";
     }
 
     @PostMapping()

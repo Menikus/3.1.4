@@ -30,7 +30,7 @@
             <!--Маркеры admin-panel и user-panel на кнопки-->
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="index.html#admin-panel">Admin</a>
+                    <a class="nav-link active" data-bs-toggle="tab" href="admin.html#admin-panel">Admin</a>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#user-panel">User</a>
                 </li>
@@ -316,7 +316,7 @@
                                 <div class="card text-center">
                                     <div class="form-group justify-content-center mx-auto col-md-4">
                                         <form id="new-users" th:method="POST"
-                                              th:action="@{/admin}"
+                                              th:action="@{/templates/admin}"
                                               th:object="${newUser}">
                                             <div class="mb-3">
                                                 <label for="createFirstName" class="container-fluid">
